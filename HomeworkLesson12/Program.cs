@@ -10,10 +10,18 @@ namespace HomeworkLesson12
         static void Main(string[] args)
         {
             Matrix.Draw();
+            List<Task> taskList = new List<Task>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                taskList.Add(Task.Run(() => Matrix.Draw()));
+            }
+            Task.WhenAll(taskList);
         }
     }
     static class Matrix
     {
+        static object locker = new object();
         private static List<string> symbolsList = new List<string>()
         {
             "d",
@@ -44,32 +52,42 @@ namespace HomeworkLesson12
 
         public static void Draw()
         {
-            Random rdLength = new Random();
-            int randLength = rdLength.Next(2,10);
-            Random rdSymbol = new Random();
-
-            for (int i = 0; i < randLength; i++)
+            while (true)
             {
-                if (i == randLength - 1)
+                lock (locker)
                 {
-                    int randSymbol = rdSymbol.Next(0,24);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine(symbolsList[randSymbol]);
-                    Console.ResetColor();
-                }
-                else if (i == randLength - 2)
-                {
-                    int randSymbol = rdSymbol.Next(0,24);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(symbolsList[randSymbol]);
-                    Console.ResetColor();
-                }
-                else
-                {
-                    int randSymbol = rdSymbol.Next(0,24);
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine(symbolsList[randSymbol]);
-                    Console.ResetColor();
+
+                    Random rand = new Random();
+                    int randLength = rand.Next(2, 10);
+                    int randTop = rand.Next(0, 30);
+                    int randdWidth = rand.Next(0, 60);
+                    // Console.CursorTop = 0;
+
+                    for (int i = 0; i < randLength; i++)
+                    {
+                        Console.CursorLeft = randdWidth;
+                        if (i == randLength - 1)
+                        {
+                            int randSymbol = rand.Next(0, 24);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine(symbolsList[randSymbol]);
+                            Console.ResetColor();
+                        }
+                        else if (i == randLength - 2)
+                        {
+                            int randSymbol = rand.Next(0, 24);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine(symbolsList[randSymbol]);
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            int randSymbol = rand.Next(0, 24);
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            Console.WriteLine(symbolsList[randSymbol]);
+                            Console.ResetColor();
+                        }
+                    }
                 }
             }
         }
