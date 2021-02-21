@@ -9,7 +9,6 @@ namespace HomeworkLesson12
     {
         static void Main(string[] args)
         {
-            Matrix.Draw();
             List<Task> taskList = new List<Task>();
 
             for (int i = 0; i < 100; i++)
@@ -61,7 +60,6 @@ namespace HomeworkLesson12
                     int randLength = rand.Next(2, 10);
                     int randTop = rand.Next(0, 30);
                     int randdWidth = rand.Next(0, 60);
-                    // Console.CursorTop = 0;
 
                     for (int i = 0; i < randLength; i++)
                     {
