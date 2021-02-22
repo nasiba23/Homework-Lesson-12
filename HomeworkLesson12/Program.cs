@@ -7,7 +7,7 @@ namespace HomeworkLesson12
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             List<Task> taskList = new List<Task>();
 
@@ -15,7 +15,7 @@ namespace HomeworkLesson12
             {
                 taskList.Add(Task.Run(() => Matrix.Draw()));
             }
-            Task.WhenAll(taskList);
+            await Task.WhenAll(taskList);
         }
     }
     static class Matrix
